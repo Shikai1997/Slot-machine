@@ -1,83 +1,71 @@
-let star = document.querySelector('#star');
-let card_1 = document.querySelector('.card-1');
-let card_2 = document.querySelector('.card-2');
-let card_3 = document.querySelector('.card-3');
-star.addEventListener('click', run)
+let card_1 = document.querySelector(".card-1");
+let card_2 = document.querySelector(".card-2");
+let card_3 = document.querySelector(".card-3");
+let star = document.querySelector("#star");
 
+star.addEventListener("click", run);
 
+//创造数字卡
+for (let i = 0; i < 11; i++) {
+  //后面补0  不然动画会有延迟
+  if (i === 10) {
+    $(".card-1").append($("<li></li>").text(0).addClass("num"));
+    $(".card-2").append($("<li></li>").text(0).addClass("num"));
+    $(".card-3").append($("<li></li>").text(0).addClass("num"));
+    break;
+  }
+  $(".card-1").append($("<li></li>").text(i).addClass("num"));
+  $(".card-2").append($("<li></li>").text(i).addClass("num"));
+  $(".card-3").append($("<li></li>").text(i).addClass("num"));
+}
 
-//執行  
+//执行滚动
 function run() {
+  card1();
+  setTimeout(() => card2(), 300);
+  setTimeout(() => card3(), 600);
 
-    //初始位置
-    let times = 0;
+  let ran1 = Math.floor( 5 + Math.random()*5);
+  let ran2 = Math.floor( 8 + Math.random()*8);
+  let ran3 = Math.floor( 11 + Math.random()*11);
 
-    //定時器  20ms/次
-    let card1 = setInterval(function() {
-        times += 10;
+}
 
-        //20ms + Y軸10px
-        card_1.style.transform = 'translateY(-' + times + 'px)';
+//card-1定时器建立
+function card1() {
+  timer(0,card_1,30);
+}
 
-        //歸0
-        if (times === 1000) {
-            card_1.style.transform = 'translateY(0px)';
-            times = 0;
-        }
-        console.log(times)
-    }, 30);
+//card-2定时器建立
+function card2() {
+  timer(0,card_2,20);
+}
 
-    let card2 = setTimeout(function() {
-        setInterval(function() {
-            times += 10;
+//card-3定时器建立
+function card3() {
+  timer(0,card_3,10);
 
-            //20ms + Y軸10px
-            card_2.style.transform = 'translateY(-' + times + 'px)';
+  setTimeout(function(){
+      clearTimeout(timer);
+  },3500);
+}
 
-            //歸0
-            if (times === 1000) {
-                card_2.style.transform = 'translateY(0px)';
-                times = 0;
-            }
-        }, 20);
-    }, 300)
-
-    let card3 = setTimeout(function() {
-        setInterval(function() {
-            times += 10;
-
-            //20ms + Y軸10px
-            card_3.style.transform = 'translateY(-' + times + 'px)';
-
-            //歸0
-            if (times === 1000) {
-                card_3.style.transform = 'translateY(0px)';
-                times = 0;
-            }
-        }, 10);
-    }, 600)
-
-
+//定时器
+function timer(position,b,num) {
 
     setTimeout(function() {
-        clearInterval(card1);
-    }, 8100)
+      position += 10;
 
-}
+      //每num毫秒  Y轴增加10px
+      b.style.transform = "translateY(-" + position + "px)";
+
+      //归0
+      if (position === 1000) {
+       b.style.transform = "translateY(0px)";
+        position = 0;
+      }
+      timer(position,b,num);
+    }, num);
+  };
 
 
-
-
-//創造數字卡
-for (let i = 0; i < 11; i++) {
-    //後面補0  不然run時數字會斷掉
-    if (i === 10) {
-        $('.card-1').append($('<li></li>').text(0).addClass('num'));
-        $('.card-2').append($('<li></li>').text(0).addClass('num'));
-        $('.card-3').append($('<li></li>').text(0).addClass('num'));
-        break
-    }
-    $('.card-1').append($('<li></li>').text(i).addClass('num'));
-    $('.card-2').append($('<li></li>').text(i).addClass('num'));
-    $('.card-3').append($('<li></li>').text(i).addClass('num'));
-}
